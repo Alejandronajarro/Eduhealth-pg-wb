@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decimo Grado - EduHealth</title>
+    <style>
+        :root {
+            --primary-blue: #4d82bc;
+            --primary-green: #c4dafa;
+            --light-gray: #fcffff;
+            --dark-gray: #333;
+            --white: #e3f8e0;
+            padding: 0px;
+        }
+        
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #baddff;
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+        
+        header {
+            display: grid;
+            place-items: center;
+            height: 10vh;
+            justify-content: space-between;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        header h1 {
+          margin: 0;
+          width: 100%;
+          text-align: center;
+          color: var(--white);
+          font-size: 2.2em;
+         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            padding: 20px;
+            place-items: center;
+        }
+
+        .student-container {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .student-container img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-info h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .student-info p {
+            margin: 5px 0;
+        }
+
+        form {
+            margin: 20px 0;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form input, form button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        form input[type="text"], form input[type="number"], form input[type="tel"] {
+            width: calc(100% - 20px);
+        }
+
+        .delete-button {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+
+        .edit-button {
+            position: absolute;
+            right: 100px;
+            top: 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .edit-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Decimo grado - EduHealth</h1>
+    </header>
+
+    <div class="container" id="students-container">
+        <!-- Lista de estudiantes predefinidos -->
+    </div>
+
+    <!-- Formulario para agregar estudiantes -->
+    <form id="student-form">
+        <h3>Agregar nuevo estudiante</h3>
+        <input type="text" id="student-name" placeholder="Nombre del estudiante" required>
+        <input type="number" id="student-age" placeholder="Edad del estudiante" required>
+        <input type="text" id="student-mental-health" placeholder="Salud mental del estudiante" required>
+        <input type="text" id="student-physical-health" placeholder="Salud física del estudiante" required>
+        <input type="text" id="student-photo" placeholder="URL de la foto del estudiante" required>
+        <input type="text" id="parent-name" placeholder="Nombre del padre o madre" required>
+        <input type="tel" id="parent-phone" placeholder="Número de teléfono del familiar" required>
+        <button type="submit">Agregar Estudiante</button>
+    </form>
+
+    <script>
+        // Seleccionar el contenedor donde se mostrarán los estudiantes y el formulario
+        const studentsContainer = document.getElementById('students-container');
+        const studentForm = document.getElementById('student-form');
+
+        // Cargar estudiantes desde localStorage al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedStudents = JSON.parse(localStorage.getItem('students_Decimo')) || [];
+            savedStudents.forEach(student => {
+                addStudentToDOM(student);
+            });
+        });
+
+        // Función para agregar un estudiante al DOM
+        function addStudentToDOM(student) {
+            const newStudent = document.createElement('div');
+            newStudent.classList.add('student-container');
+            newStudent.innerHTML = `
+                <img src="${student.photoUrl}" alt="Foto de Alumno">
+                <div class="student-info">
+                    <h3>${student.name}</h3>
+                    <p>Edad: ${student.age} años</p>
+                    <p>Salud mental: ${student.mentalHealth}</p>
+                    <p>Salud física: ${student.physicalHealth}</p>
+                    <p>Padre/Madre: ${student.parentName}</p>
+                    <p>Teléfono: ${student.parentPhone}</p>
+                </div>
+                <button class="edit-button" onclick="editStudent(this)">Editar</button>
+                <button class="delete-button" onclick="removeStudent(this)">Eliminar</button>
+            `;
+            studentsContainer.appendChild(newStudent);
+        }
+
+        // Añadir un evento de envío al formulario
+        studentForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Evitar que el formulario se envíe
+
+            // Obtener los valores de los campos del formulario
+            const name = document.getElementById('student-name').value;
+            const age = document.getElementById('student-age').value;
+            const mentalHealth = document.getElementById('student-mental-health').value;
+            const physicalHealth = document.getElementById('student-physical-health').value;
+            const photoUrl = document.getElementById('student-photo').value;
+            const parentName = document.getElementById('parent-name').value;
+            const parentPhone = document.getElementById('parent-phone').value;
+
+            // Crear el nuevo estudiante
+            const newStudent = {
+                name,
+                age,
+                mentalHealth,
+                physicalHealth,
+                photoUrl,
+                parentName,
+                parentPhone
+            };
+
+            if (studentForm.getAttribute('data-editing') === 'true') {
+                // Estamos editando un estudiante existente
+                const index = parseInt(studentForm.getAttribute('data-student-index'));
+                const studentContainer = studentsContainer.children[index];
+                
+                // Actualizar el DOM
+                studentContainer.querySelector('img').src = photoUrl;
+                studentContainer.querySelector('h3').textContent = name;
+                const pTags = studentContainer.querySelectorAll('p');
+                pTags[0].textContent = `Edad: ${age} años`;
+                pTags[1].textContent = `Salud mental: ${mentalHealth}`;
+                pTags[2].textContent = `Salud física: ${physicalHealth}`;
+                pTags[3].textContent = `Padre/Madre: ${parentName}`;
+                pTags[4].textContent = `Teléfono: ${parentPhone}`;
+
+                // Actualizar localStorage
+                let savedStudents = JSON.parse(localStorage.getItem('students_Decimo')) || [];
+                savedStudents[index] = newStudent;
+                localStorage.setItem('students_Decimo', JSON.stringify(savedStudents));
+
+                // Restablecer el formulario
+                studentForm.removeAttribute('data-editing');
+                studentForm.removeAttribute('data-student-index');
+                document.querySelector('button[type="submit"]').textContent = 'Agregar Estudiante';
+            } else {
+                // Agregar el nuevo estudiante al DOM
+                addStudentToDOM(newStudent);
+
+                // Guardar en localStorage
+                const savedStudents = JSON.parse(localStorage.getItem('students_Decimo')) || [];
+                savedStudents.push(newStudent);
+                localStorage.setItem('students_Decimo', JSON.stringify(savedStudents));
+            }
+
+            // Limpiar el formulario
+            studentForm.reset();
+        });
+
+        // Función para eliminar un estudiante
+        function removeStudent(button) {
+            const student = button.parentElement;
+            studentsContainer.removeChild(student);
+
+            // Eliminar de localStorage
+            const name = student.querySelector('h3').textContent;
+            let savedStudents = JSON.parse(localStorage.getItem('students')) || [];
+            savedStudents = savedStudents.filter(student => student.name !== name);
+            localStorage.setItem('students', JSON.stringify(savedStudents));
+        }
+
+        // Función para editar un estudiante
+        function editStudent(button) {
+            const studentContainer = button.parentElement;
+            const studentInfo = studentContainer.querySelector('.student-info');
+            const name = studentInfo.querySelector('h3').textContent;
+            const age = studentInfo.querySelectorAll('p')[0].textContent.split(':')[1].trim().split(' ')[0];
+            const mentalHealth = studentInfo.querySelectorAll('p')[1].textContent.split(':')[1].trim();
+            const physicalHealth = studentInfo.querySelectorAll('p')[2].textContent.split(':')[1].trim();
+            const parentName = studentInfo.querySelectorAll('p')[3].textContent.split(':')[1].trim();
+            const parentPhone = studentInfo.querySelectorAll('p')[4].textContent.split(':')[1].trim();
+            const photoUrl = studentContainer.querySelector('img').src;
+
+            // Rellenar el formulario con la información actual
+            document.getElementById('student-name').value = name;
+            document.getElementById('student-age').value = age;
+            document.getElementById('student-mental-health').value = mentalHealth;
+            document.getElementById('student-physical-health').value = physicalHealth;
+            document.getElementById('student-photo').value = photoUrl;
+            document.getElementById('parent-name').value = parentName;
+            document.getElementById('parent-phone').value = parentPhone;
+
+            // Cambiar el texto del botón de envío
+            const submitButton = studentForm.querySelector('button[type="submit"]');
+            submitButton.textContent = 'Actualizar Estudiante';
+
+            // Agregar un atributo data para identificar que estamos editando
+            studentForm.setAttribute('data-editing', 'true');
+            studentForm.setAttribute('data-student-index', Array.from(studentsContainer.children).indexOf(studentContainer));
+
+            // Desplazarse al formulario
+            studentForm.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+
+
+
+    <!-- Contenedor de los enlaces PDF -->
+  
+        
+
+
+
+
+
+
+    <script>
+        window.embeddedChatbotConfig = {
+        chatbotId: "Sa60GFhtFf50f0vFRNJnT",
+        domain: "www.chatbase.co"
+        }
+    </script>
+    <script
+        src="https://www.chatbase.co/embed.min.js"
+        chatbotId="Sa60GFhtFf50f0vFRNJnT"
+        domain="www.chatbase.co"
+        defer>
+    </script>
+</body>
+</html>

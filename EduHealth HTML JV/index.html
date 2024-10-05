@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHealth</title>
+
+    <style>
+        :root {
+            --primary-blue: #4d82bc;
+            --primary-green: #c4dafa;
+            --light-gray: #fcffff;
+            --dark-gray: #333;
+            --white: #e3f8e0;
+        }
+        
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #3399ff;
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            object-fit: contain;
+            background-color: transparent;
+        }
+        
+        h1 {
+            margin: 0;
+            color: var(--white);
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-green);
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 30px;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .grade-container {
+            width: 100%;
+            background-color: var(--white);
+            border: none;
+            border-radius: 10px;
+            margin: 15px 0;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .grade-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .grade-container img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .grade-info h2 {
+            margin: 0 0 8px 0;
+            color: var(--primary-blue);
+            font-size: 1.6em;
+        }
+        
+        .grade-info p {
+            margin: 0;
+            color: var(--dark-gray);
+            font-size: 1em;
+        }
+        
+        .grade-info {
+            flex: 1;
+        }
+
+        .section {
+            display: none;
+            width: 100%;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Estilos para el fondo animado */
+        .circle {
+            position: fixed;
+            border-radius: 50%;
+            background: white;
+            animation: ripple 15s infinite;
+            box-shadow: 0px 0px 1px 0px #508fb9;
+        }
+        .small{
+            width: 200px;
+            height: 200px;
+            left: -100px;
+            bottom: -100px;
+        }
+        .medium{
+            width: 400px;
+            height: 400px;
+            left: -200px;
+            bottom: -200px;
+        }
+        .large{
+            width: 600px;
+            height: 600px;
+            left: -300px;
+            bottom: -300px;
+        }
+        .xlarge{
+            width: 800px;
+            height: 800px;
+            left: -400px;
+            bottom: -400px;
+        }
+        .xxlarge{
+            width: 1000px;
+            height: 1000px;
+            left: -500px;
+            bottom: -500px;
+        }
+        .shade1{
+            opacity: 0.2;
+        }
+        .shade2{
+            opacity: 0.5;
+        }
+        .shade3{
+            opacity: 0.7;
+        }
+        .shade4{
+            opacity: 0.8;
+        }
+        .shade5{
+            opacity: 0.9;
+        }
+        @keyframes ripple{
+            0%{
+                transform: scale(0.8);
+            }
+            
+            50%{
+                transform: scale(1.2);
+            }
+            
+            100%{
+                transform: scale(0.8);
+            }
+        }
+    </style>
+    <script>
+        function openGradePage(grade) {
+            window.location.href = grade + ".html";
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <div class="circle xxlarge shade1"></div>
+    <div class="circle xlarge shade2"></div>
+    <div class="circle large shade3"></div>
+    <div class="circle medium shade4"></div>
+    <div class="circle small shade5"></div>
+
+    <header>
+        <div class="">
+            <img src="" alt="" class="">
+            <h1>EduHealth</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('cursos')">Cursos</a></li>
+                <li><a href="#" onclick="showSection('formatos')">Formatos</a></li>
+                <li><a href="#" onclick="showSection('Puntuacion')">Puntuacion</a></li>
+                <li><a href="#" onclick="showSection('clinicas')">Clínicas/Hospitales</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div id="cursos" class="section active">
+            <div class="grade-container" onclick="openGradePage('septimo')">
+                <img src="images/edu7sep.jpeg" alt="Ilustración Séptimo Grado">
+                <div class="grade-info">
+                    <h2>7° Grado</h2>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="grade-container" onclick="openGradePage('octavo')">
+                <img src="images/logo8oct.jpeg" alt="Ilustración Octavo Grado">
+                <div class="grade-info">
+                    <h2>8° Grado</h2>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="grade-container" onclick="openGradePage('noveno')">
+                <img src="images/edu9nov.jpeg" alt="Ilustración Noveno Grado">
+                <div class="grade-info">
+                    <h2>9° Grado</h2>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="grade-container" onclick="openGradePage('decimo')">
+                <img src="images/decimo.jpeg" alt="Ilustración Décimo Grado">
+                <div class="grade-info">
+                    <h2>10° Grado</h2>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="grade-container" onclick="openGradePage('Ciencias y humanidades')">
+                <img src="images/segundohum.jpeg" alt="Ilustración Ciencias y Humanidades">
+                <div class="grade-info">
+                    <h2>Ciencias y humanidades</h2>
+                    <p></p>
+                </div>
+            </div>
+        
+            <div class="grade-container" onclick="openGradePage('Segundo Diseño Grafico')">
+                <img src="images/segundodiseño.jpeg" alt="Ilustración Segundo Diseño Grafico">
+                 <div class="grade-info">
+                    <h2>Segundo Diseño Grafico</h2>
+                     <p></p>
+                </div>
+            </div>
+        
+             <div class="grade-container" onclick="openGradePage('Tercero Diseño Grafico')">
+                <img src="images/tercerodiseño.jpeg" alt="Ilustración Tercero Diseño Grafico ">
+                <div class="grade-info">
+                    <h2>Tercero Diseño Grafico</h2>
+                    <p></p>
+                </div>
+             </div>
+        
+             <div class="grade-container" onclick="openGradePage('Segundo Informatica')">
+                 <img src="images/segundoinformatica.jpeg" alt="Ilustración Segundo Informatica">
+                 <div class="grade-info">
+                    <h2>Segundo Informatica</h2>
+                    <p></p>
+                </div>
+            </div>
+        
+            <div class="grade-container" onclick="openGradePage('Tercero Informatica')">
+                <img src="images/terceroinfo.jpeg" alt="Ilustración Tercero Informatica">
+                <div class="grade-info">
+                    <h2>Tercero Informatica</h2>
+                    <p></p>
+                </div>
+            </div>
+        
+            <div class="grade-container" onclick="openGradePage('Segundo Contaduria y Finanzas')">
+                <img src="images/segundoconta.jpeg" alt="Ilustración Segundo Contaduria y Finanzas">
+                <div class="grade-info">
+                    <h2>Segundo Contaduria y Finanzas</h2>
+                    <p></p>
+                </div>
+            </div>
+        
+            <div class="grade-container" onclick="openGradePage('Tercero Contaduria y Finanzas')">
+                <img src="images/terceroconta.jpeg" alt="Ilustracion Tercero Contaduria y Finanzas">
+                <div class="grade-info">
+                    <h2>Tercero Contaduria y Finanza</h2>
+                    <p></p>
+                 </div>
+            </div>
+        </div>
+
+
+
+        <style>
+            /* Estilos para los enlaces de PDF */
+            .pdf-links-container {
+                margin-top: 20px;
+                padding: 20px;
+                background-color: #ffffffe3;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+    
+            .pdf-links input {
+                width: 30%;
+                padding: 10px;
+                margin-right: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+    
+            .pdf-links button {
+                padding: 10px 20px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+    
+            .pdf-links button:hover {
+                background-color: #45a049;
+            }
+    
+            .pdf-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+    
+            .delete-pdf {
+                background-color: #e74c3c;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+    
+            .delete-pdf:hover {
+                background-color: #c0392b;
+            }
+    
+            /* Estilos para la sección de clínicas y hospitales */
+            .section {
+                margin-top: 40px;
+                padding: 20px;
+                background-color:none;
+                border-radius: 5px;
+            }
+    
+            .section h2 {
+                font-size: 24px;
+                color: #000000;
+            }
+    
+            .section p {
+                font-size: 16px;
+                color: #000000;
+            }
+    
+            .section ul {
+                list-style-type: none;
+                padding-left: 0;
+            }
+    
+            .section ul li {
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ffffff;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #3399ff;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #3399ff;
+        }
+        tr:hover {
+            background-color: #3399ff;
+        }
+        .editable:hover {
+            background-color: #3399ff;
+            cursor: pointer;
+        }
+        #gradeSelector, #addUserForm, #addGradeForm {
+            margin-bottom: 10px;
+        }
+        #addUserForm input, #addGradeForm input {
+            margin-right: 5px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="formatos" class="section">
+        <h2>Formatos</h2>
+        <p>Aquí puedes encontrar varios formatos útiles para el área de salud.</p>
+        
+        <div class="pdf-links-container">
+            <h3>Enlaces PDF</h3>
+            <div class="pdf-links">
+                <input type="url" id="pdf-url" placeholder="Agregar enlace PDF" required>
+                <input type="text" id="pdf-name" placeholder="Nombre del PDF" required>
+                <button id="add-pdf">Agregar PDF</button>
+            </div>
+            <div id="pdf-list">
+                <!-- Aquí se mostrarán los enlaces de PDF -->
+            </div>
+        </div>
+    </div>
+
+    <div id="Puntuacion" class="section">
+        <h2>Puntuación</h2>
+        
+        <div id="gradeSelector">
+            <label for="grade">Seleccionar Grado:</label>
+            <select id="grade" onchange="changeGrade()">
+                <!-- Options will be populated dynamically -->
+            </select>
+        </div>
+        <div id="addGradeForm">
+            <input type="text" id="newGradeName" placeholder="Nombre del nuevo grado">
+            <button onclick="addGrade()">Agregar Grado</button>
+        </div>
+        <div id="addUserForm">
+            <input type="text" id="newUserName" placeholder="Nombre del nuevo usuario">
+            <button onclick="addUser()">Agregar Usuario</button>
+        </div>
+        <table id="mentalEvaluationTable">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Resultado Depresión</th>
+                    <th>Interpretación</th>
+                    <th>Resultado Ansiedad</th>
+                    <th>Interpretación</th>
+                    <th>Resultado Estrés</th>
+                    <th>Interpretación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas se añadirán con JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="clinicas" class="section">
+        <h2>Clínicas y Hospitales</h2>
+        <p>Información sobre clínicas y hospitales asociados.</p>
+        <ul>
+            <li>Macro distrito de salud las palmas - Dirección: 20 calle 13 avenida - Tel: indefinido</li>
+            <li>Hospital y clínica Ferraro - Dirección: Av. 12 calle 6 avenida - Tel: 9522-7037</li>
+            <li>Ashonplafa - Dirección: 2 avenida - Tel: 2557-8005</li>
+            <li>Hospital Cemesa - Dirección: 21 calle bulevar del sur - Tel: 2516-0174</li>
+            <li>Policlínica - Dirección: 6 calle NO - Tel: 2553-4375</li>
+        </ul>
+    </div>
+
+    <script>
+        // Código JavaScript gestión de PDFs
+        const pdfForm = document.getElementById('add-pdf');
+        const pdfUrlInput = document.getElementById('pdf-url');
+        const pdfNameInput = document.getElementById('pdf-name');
+        const pdfList = document.getElementById('pdf-list');
+
+        // Cargar PDFs desde localStorage cArgar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedPdfs = JSON.parse(localStorage.getItem('pdfLinks')) || [];
+            savedPdfs.forEach((pdf) => {
+                addPdfToDOM(pdf.url, pdf.name);
+            });
+        });
+
+        // Función para agregar un enlace de PDF al DOM
+        function addPdfToDOM(pdfUrl, pdfName) {
+            const pdfItem = document.createElement('div');
+            pdfItem.classList.add('pdf-item');
+            
+            const pdfLink = document.createElement('a');
+            pdfLink.href = pdfUrl;
+            pdfLink.textContent = pdfName;
+            pdfLink.target = "_blank";
+            pdfLink.rel = "noopener noreferrer";
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = "Eliminar";
+            deleteButton.classList.add('delete-pdf');
+            deleteButton.addEventListener('click', function() {
+                removePdfFromDOM(pdfItem, pdfUrl);
+            });
+
+            pdfItem.appendChild(pdfLink);
+            pdfItem.appendChild(deleteButton);
+            pdfList.appendChild(pdfItem);
+        }
+
+        // Evento para agregar un nuevo enlace PDF
+        pdfForm.addEventListener('click', function(e) {
+            e.preventDefault();
+            let pdfUrl = pdfUrlInput.value;
+            let pdfName = pdfNameInput.value;
+
+            if (!pdfUrl || !pdfName) {
+                alert("Por favor, ingrese tanto la URL como el nombre del PDF.");
+                return;
+            }
+
+            // Añadir 'http://' si la URL no lo tiene
+            if (!pdfUrl.startsWith('http://') && !pdfUrl.startsWith('https://')) {
+                pdfUrl = 'http://' + pdfUrl;
+            }
+
+            // Obtener los PDFs guardados en localStorage
+            const savedPdfs = JSON.parse(localStorage.getItem('pdfLinks')) || [];
+
+            // Agregar el nuevo PDF a la lista y guardar en localStorage
+            savedPdfs.push({ url: pdfUrl, name: pdfName });
+            localStorage.setItem('pdfLinks', JSON.stringify(savedPdfs));
+
+            // Agregar el nuevo PDF al DOM
+            addPdfToDOM(pdfUrl, pdfName);
+
+            // Limpiar el formulario
+            pdfUrlInput.value = '';
+            pdfNameInput.value = '';
+        });
+
+        // Función para eliminar un enlace de PDF
+        function removePdfFromDOM(pdfItem, pdfUrl) {
+            // Eliminar el elemento del DOM
+            pdfItem.remove();
+
+            // Eliminar el enlace de localStorage
+            let savedPdfs = JSON.parse(localStorage.getItem('pdfLinks')) || [];
+            savedPdfs = savedPdfs.filter(pdf => pdf.url !== pdfUrl);
+            localStorage.setItem('pdfLinks', JSON.stringify(savedPdfs));
+
+            // Actualizar los PDFs en el DOM
+            pdfList.innerHTML = '';
+            savedPdfs.forEach((pdf) => {
+                addPdfToDOM(pdf.url, pdf.name);
+            });
+        }
+
+        // Código JavaScript para la gestión de puntuaciones
+        let gradeData = {};
+
+        // Cargar datos del localStorage o usar datos por defecto
+        function loadData() {
+            const storedData = localStorage.getItem('gradeData');
+            if (storedData) {
+                gradeData = JSON.parse(storedData);
+            } else {
+                // Datos por defecto si no hay nada en localStorage
+                gradeData = {
+                    "Séptimo": [],
+                    "Octavo": [],
+                    "Noveno": []
+                };
+                saveData();
+            }
+            updateGradeSelector();
+        }
+
+        // Guardar datos en localStorage
+        function saveData() {
+            localStorage.setItem('gradeData', JSON.stringify(gradeData));
+        }
+
+        function updateGradeSelector() {
+            const gradeSelector = document.getElementById("grade");
+            gradeSelector.innerHTML = "";
+            Object.keys(gradeData).forEach(grade => {
+                const option = document.createElement("option");
+                option.value = grade;
+                option.textContent = grade;
+                gradeSelector.appendChild(option);
+            });
+        }
+
+        function interpretDepression(score) {
+            score = parseInt(score);
+            if (isNaN(score)) return "";
+            if (score >= 0 && score <= 13) return "Ausencia mínima o depresión leve";
+            if (score >= 14 && score <= 19) return "Depresión leve a moderada";
+            if (score >= 20 && score <= 28) return "Depresión moderada a severa";
+            if (score >= 29 && score <= 63) return "Depresión severa";
+            return "Puntuación fuera de rango";
+        }
+
+        function interpretAnxiety(score) {
+            score = parseInt(score);
+            if (isNaN(score)) return "";
+            if (score >= 0 && score <= 21) return "Ansiedad mínima";
+            if (score >= 22 && score <= 35) return "Ansiedad moderada";
+            if (score >= 36) return "Ansiedad grave";
+            return "Puntuación fuera de rango";
+        }
+
+        function interpretStress(score) {
+            score = parseInt(score);
+            if (isNaN(score)) return "";
+            if (score >= 0 && score <= 15) return "Estrés mínimo";
+            if (score >= 16 && score <= 25) return "Estrés moderado";
+            if (score >= 26) return "Estrés grave";
+            return "Puntuación fuera de rango";
+        }
+
+        function populateTable(grade) {
+            const tableBody = document.querySelector("#mentalEvaluationTable tbody");
+            tableBody.innerHTML = "";
+            gradeData[grade].forEach(row => {
+                const tr = document.createElement("tr");
+                row.forEach((cell, index) => {
+                    const td = document.createElement("td");
+                    td.textContent = cell;
+                    td.className = "editable";
+                    td.onclick = function() { editCell(this, index); };
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function changeGrade() {
+            const grade = document.getElementById("grade").value;
+            populateTable(grade);
+        }
+
+        function editCell(cell, columnIndex) {
+            const oldValue = cell.textContent;
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = oldValue;
+            cell.textContent = "";
+            cell.appendChild(input);
+            input.focus();
+
+            input.onblur = function() {
+                updateCellValue(cell, this.value, columnIndex);
+            };
+
+            input.onkeypress = function(e) {
+                if (e.key === "Enter") {
+                    updateCellValue(cell, this.value, columnIndex);
+                }
+            };
+        }
+
+        function updateCellValue(cell, value, columnIndex) {
+            cell.textContent = value;
+            const currentGrade = document.getElementById("grade").value;
+            const rowIndex = cell.parentElement.rowIndex - 1; // -1 porque el encabezado cuenta como fila
+
+            if (columnIndex === 1 || columnIndex === 3 || columnIndex === 5) {
+                const interpretationCell = cell.nextElementSibling;
+                let interpretation = "";
+                switch(columnIndex) {
+                    case 1:
+                        interpretation = interpretDepression(value);
+                        break;
+                    case 3:
+                        interpretation = interpretAnxiety(value);
+                        break;
+                    case 5:
+                        interpretation = interpretStress(value);
+                        break;
+                }
+                interpretationCell.textContent = interpretation;
+                gradeData[currentGrade][rowIndex][columnIndex + 1] = interpretation;
+            }
+            
+            // Actualizar los datos en gradeData y guardar en localStorage
+            gradeData[currentGrade][rowIndex][columnIndex] = value;
+            saveData();
+        }
+
+        function addUser() {
+            const newUserName = document.getElementById("newUserName").value.trim();
+            if (newUserName) {
+                const currentGrade = document.getElementById("grade").value;
+                gradeData[currentGrade].push([newUserName, "", "", "", "", "", ""]);
+                document.getElementById("newUserName").value = ""; // Limpiar el campo de entrada
+                saveData(); // Guardar los datos actualizados
+                populateTable(currentGrade); // Actualizar la tabla
+            } else {
+                alert("Por favor, ingrese un nombre para el nuevo usuario.");
+            }
+        }
+
+        function addGrade() {
+            const newGradeName = document.getElementById("newGradeName").value.trim();
+            if (newGradeName && !gradeData.hasOwnProperty(newGradeName)) {
+                gradeData[newGradeName] = [];
+                document.getElementById("newGradeName").value = ""; // Limpiar el campo de entrada
+                saveData(); // Guardar los datos actualizados
+                updateGradeSelector(); // Actualizar el selector de grados
+                document.getElementById("grade").value = newGradeName; // Seleccionar el nuevo grado
+                changeGrade(); // Actualizar la tabla
+            } else {
+                alert("Por favor, ingrese un nombre válido para el nuevo grado.");
+            }
+        }
+
+        // Cargar datos y inicializar la tabla
+        loadData();
+        if (Object.keys(gradeData).length > 0) {
+            const firstGrade = Object.keys(gradeData)[0];
+            document.getElementById("grade").value = firstGrade;
+            populateTable(firstGrade);
+        }
+    </script>
+</body>
+</html>
